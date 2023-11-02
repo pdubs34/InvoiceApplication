@@ -10,90 +10,90 @@ using InvoiceApplication.Models;
 
 namespace InvoiceApplication.Controllers
 {
-    public class AliasesController : Controller
+    public class InvoiceItemsController : Controller
     {
         private readonly InvoiceApplicationContext _context;
 
-        public AliasesController(InvoiceApplicationContext context)
+        public InvoiceItemsController(InvoiceApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: Aliases
+        // GET: InvoiceItems
         public async Task<IActionResult> Index()
         {
-            var invoiceApplicationContext = _context.Alias.Include(a => a.User);
+            var invoiceApplicationContext = _context.InvoiceItem.Include(i => i.Item);
             return View(await invoiceApplicationContext.ToListAsync());
         }
 
-        // GET: Aliases/Details/5
+        // GET: InvoiceItems/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Alias == null)
+            if (id == null || _context.InvoiceItem == null)
             {
                 return NotFound();
             }
 
-            var @alias = await _context.Alias
-                .Include(a => a.User)
+            var invoiceItem = await _context.InvoiceItem
+                .Include(i => i.Item)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@alias == null)
+            if (invoiceItem == null)
             {
                 return NotFound();
             }
 
-            return View(@alias);
+            return View(invoiceItem);
         }
 
-        // GET: Aliases/Create
+        // GET: InvoiceItems/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id");
+            ViewData["ItemId"] = new SelectList(_context.Item, "Id", "Id");
             return View();
         }
 
-        // POST: Aliases/Create
+        // POST: InvoiceItems/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,UserId")] Alias @alias)
+        public async Task<IActionResult> Create([Bind("Id,ItemId,Quantity,Type")] InvoiceItem invoiceItem)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@alias);
+                _context.Add(invoiceItem);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", @alias.UserId);
-            return View(@alias);
+            ViewData["ItemId"] = new SelectList(_context.Item, "Id", "Id", invoiceItem.ItemId);
+            return View(invoiceItem);
         }
 
-        // GET: Aliases/Edit/5
+        // GET: InvoiceItems/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Alias == null)
+            if (id == null || _context.InvoiceItem == null)
             {
                 return NotFound();
             }
 
-            var @alias = await _context.Alias.FindAsync(id);
-            if (@alias == null)
+            var invoiceItem = await _context.InvoiceItem.FindAsync(id);
+            if (invoiceItem == null)
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", @alias.UserId);
-            return View(@alias);
+            ViewData["ItemId"] = new SelectList(_context.Item, "Id", "Id", invoiceItem.ItemId);
+            return View(invoiceItem);
         }
 
-        // POST: Aliases/Edit/5
+        // POST: InvoiceItems/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,UserId")] Alias @alias)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ItemId,Quantity,Type")] InvoiceItem invoiceItem)
         {
-            if (id != @alias.Id)
+            if (id != invoiceItem.Id)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace InvoiceApplication.Controllers
             {
                 try
                 {
-                    _context.Update(@alias);
+                    _context.Update(invoiceItem);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AliasExists(@alias.Id))
+                    if (!InvoiceItemExists(invoiceItem.Id))
                     {
                         return NotFound();
                     }
@@ -118,51 +118,51 @@ namespace InvoiceApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id", @alias.UserId);
-            return View(@alias);
+            ViewData["ItemId"] = new SelectList(_context.Item, "Id", "Id", invoiceItem.ItemId);
+            return View(invoiceItem);
         }
 
-        // GET: Aliases/Delete/5
+        // GET: InvoiceItems/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Alias == null)
+            if (id == null || _context.InvoiceItem == null)
             {
                 return NotFound();
             }
 
-            var @alias = await _context.Alias
-                .Include(a => a.User)
+            var invoiceItem = await _context.InvoiceItem
+                .Include(i => i.Item)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@alias == null)
+            if (invoiceItem == null)
             {
                 return NotFound();
             }
 
-            return View(@alias);
+            return View(invoiceItem);
         }
 
-        // POST: Aliases/Delete/5
+        // POST: InvoiceItems/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Alias == null)
+            if (_context.InvoiceItem == null)
             {
-                return Problem("Entity set 'InvoiceApplicationContext.Alias'  is null.");
+                return Problem("Entity set 'InvoiceApplicationContext.InvoiceItem'  is null.");
             }
-            var @alias = await _context.Alias.FindAsync(id);
-            if (@alias != null)
+            var invoiceItem = await _context.InvoiceItem.FindAsync(id);
+            if (invoiceItem != null)
             {
-                _context.Alias.Remove(@alias);
+                _context.InvoiceItem.Remove(invoiceItem);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AliasExists(int id)
+        private bool InvoiceItemExists(int id)
         {
-          return (_context.Alias?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.InvoiceItem?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

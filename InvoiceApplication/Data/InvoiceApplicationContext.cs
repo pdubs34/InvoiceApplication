@@ -16,10 +16,14 @@ namespace InvoiceApplication.Data
 
         public DbSet<InvoiceApplication.Models.User> User { get; set; } = default!;
 
-        public DbSet<InvoiceApplication.Models.Alias>? Alias { get; set; }
-
         public DbSet<InvoiceApplication.Models.Item>? Item { get; set; }
 
         public DbSet<InvoiceApplication.Models.Invoice>? Invoice { get; set; }
+
+        public DbSet<InvoiceApplication.Models.InvoiceItem>? InvoiceItem { get; set; }
+
+        public DbSet<InvoiceApplication.Models.DayData>? DayData { get; set; }
+
+        public DbSet<InvoiceApplication.Models.Store>? Store { get; set; }
     }
 }

@@ -10,90 +10,87 @@ using InvoiceApplication.Models;
 
 namespace InvoiceApplication.Controllers
 {
-    public class InvoicesController : Controller
+    public class DayDatasController : Controller
     {
         private readonly InvoiceApplicationContext _context;
 
-        public InvoicesController(InvoiceApplicationContext context)
+        public DayDatasController(InvoiceApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: Invoices
+        // GET: DayDatas
         public async Task<IActionResult> Index()
         {
-            var invoiceApplicationContext = _context.Invoice.Include(i => i.Store);
-            return View(await invoiceApplicationContext.ToListAsync());
+              return _context.DayData != null ? 
+                          View(await _context.DayData.ToListAsync()) :
+                          Problem("Entity set 'InvoiceApplicationContext.DayData'  is null.");
         }
 
-        // GET: Invoices/Details/5
+        // GET: DayDatas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Invoice == null)
+            if (id == null || _context.DayData == null)
             {
                 return NotFound();
             }
 
-            var invoice = await _context.Invoice
-                .Include(i => i.Store)
+            var dayData = await _context.DayData
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (invoice == null)
+            if (dayData == null)
             {
                 return NotFound();
             }
 
-            return View(invoice);
+            return View(dayData);
         }
 
-        // GET: Invoices/Create
+        // GET: DayDatas/Create
         public IActionResult Create()
         {
-            ViewData["StoreId"] = new SelectList(_context.Invoice, "Id", "Id");
             return View();
         }
 
-        // POST: Invoices/Create
+        // POST: DayDatas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,InvoiceNum,InvoiceDate,StoreId")] Invoice invoice)
+        public async Task<IActionResult> Create([Bind("Id,Date,Precipitation,Temp,Retail")] DayData dayData)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(invoice);
+                _context.Add(dayData);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StoreId"] = new SelectList(_context.Invoice, "Id", "Id", invoice.StoreId);
-            return View(invoice);
+            return View(dayData);
         }
 
-        // GET: Invoices/Edit/5
+        // GET: DayDatas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Invoice == null)
+            if (id == null || _context.DayData == null)
             {
                 return NotFound();
             }
 
-            var invoice = await _context.Invoice.FindAsync(id);
-            if (invoice == null)
+            var dayData = await _context.DayData.FindAsync(id);
+            if (dayData == null)
             {
                 return NotFound();
             }
-            ViewData["StoreId"] = new SelectList(_context.Invoice, "Id", "Id", invoice.StoreId);
-            return View(invoice);
+            return View(dayData);
         }
 
-        // POST: Invoices/Edit/5
+        // POST: DayDatas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,InvoiceNum,InvoiceDate,StoreId")] Invoice invoice)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Precipitation,Temp,Retail")] DayData dayData)
         {
-            if (id != invoice.Id)
+            if (id != dayData.Id)
             {
                 return NotFound();
             }
@@ -102,12 +99,12 @@ namespace InvoiceApplication.Controllers
             {
                 try
                 {
-                    _context.Update(invoice);
+                    _context.Update(dayData);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!InvoiceExists(invoice.Id))
+                    if (!DayDataExists(dayData.Id))
                     {
                         return NotFound();
                     }
@@ -118,51 +115,49 @@ namespace InvoiceApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["StoreId"] = new SelectList(_context.Store, "Id", "Id", invoice.StoreId);
-            return View(invoice);
+            return View(dayData);
         }
 
-        // GET: Invoices/Delete/5
+        // GET: DayDatas/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Invoice == null)
+            if (id == null || _context.DayData == null)
             {
                 return NotFound();
             }
 
-            var invoice = await _context.Invoice
-                .Include(i => i.Store)
+            var dayData = await _context.DayData
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (invoice == null)
+            if (dayData == null)
             {
                 return NotFound();
             }
 
-            return View(invoice);
+            return View(dayData);
         }
 
-        // POST: Invoices/Delete/5
+        // POST: DayDatas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Invoice == null)
+            if (_context.DayData == null)
             {
-                return Problem("Entity set 'InvoiceApplicationContext.Invoice'  is null.");
+                return Problem("Entity set 'InvoiceApplicationContext.DayData'  is null.");
             }
-            var invoice = await _context.Invoice.FindAsync(id);
-            if (invoice != null)
+            var dayData = await _context.DayData.FindAsync(id);
+            if (dayData != null)
             {
-                _context.Invoice.Remove(invoice);
+                _context.DayData.Remove(dayData);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool InvoiceExists(int id)
+        private bool DayDataExists(int id)
         {
-          return (_context.Invoice?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.DayData?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -10,87 +10,87 @@ using InvoiceApplication.Models;
 
 namespace InvoiceApplication.Controllers
 {
-    public class UsersController : Controller
+    public class StoresController : Controller
     {
         private readonly InvoiceApplicationContext _context;
 
-        public UsersController(InvoiceApplicationContext context)
+        public StoresController(InvoiceApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: Stores
         public async Task<IActionResult> Index()
         {
-              return _context.User != null ? 
-                          View(await _context.User.ToListAsync()) :
-                          Problem("Entity set 'InvoiceApplicationContext.User'  is null.");
+              return _context.Store != null ? 
+                          View(await _context.Store.ToListAsync()) :
+                          Problem("Entity set 'InvoiceApplicationContext.Alias'  is null.");
         }
 
-        // GET: Users/Details/5
+        // GET: Stores/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.User == null)
+            if (id == null || _context.Store == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User
+            var store = await _context.Store
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (store == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(store);
         }
 
-        // GET: Users/Create
+        // GET: Stores/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Stores/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,PhoneNumber")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Name,City")] Store store)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(store);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(store);
         }
 
-        // GET: Users/Edit/5
+        // GET: Stores/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.User == null)
+            if (id == null || _context.Store == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var store = await _context.Store.FindAsync(id);
+            if (store == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(store);
         }
 
-        // POST: Users/Edit/5
+        // POST: Stores/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,PhoneNumber")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,City")] Store store)
         {
-            if (id != user.Id)
+            if (id != store.Id)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace InvoiceApplication.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(store);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!StoreExists(store.Id))
                     {
                         return NotFound();
                     }
@@ -115,49 +115,49 @@ namespace InvoiceApplication.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(store);
         }
 
-        // GET: Users/Delete/5
+        // GET: Stores/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.User == null)
+            if (id == null || _context.Store == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User
+            var store = await _context.Store
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            if (store == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(store);
         }
 
-        // POST: Users/Delete/5
+        // POST: Stores/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.User == null)
+            if (_context.Store == null)
             {
-                return Problem("Entity set 'InvoiceApplicationContext.User'  is null.");
+                return Problem("Entity set 'InvoiceApplicationContext.Alias'  is null.");
             }
-            var user = await _context.User.FindAsync(id);
-            if (user != null)
+            var store = await _context.Store.FindAsync(id);
+            if (store != null)
             {
-                _context.User.Remove(user);
+                _context.Store.Remove(store);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool StoreExists(int id)
         {
-          return (_context.User?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Store?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
