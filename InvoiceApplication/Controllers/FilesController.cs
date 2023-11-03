@@ -5,6 +5,7 @@ using System.IO;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace InvoiceApplication.Controllers
 {
@@ -64,8 +65,19 @@ namespace InvoiceApplication.Controllers
                     var currentText = PdfTextExtractor.GetTextFromPage(reader, page, strategy);
                     text.Append(currentText);
                 }
+
+                string[] lines = text.ToString().Split('\n');
+                string path = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", "example.txt");
+                using (StreamWriter sw = System.IO.File.CreateText(path))
+                {
+                    foreach (var line in lines) { 
+                        sw.WriteLine(line);
+                    }
+
+                }	
                 return text.ToString();
             }
+            
         }
         public IActionResult ShowString(string givenText)
         {

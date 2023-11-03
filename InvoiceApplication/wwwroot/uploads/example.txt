@@ -1,0 +1,52 @@
+*** INVOICE PREVIEW ONLY ***
+Scheduled Delivery Date: 10/16/2023
+Coca-Cola of Sioux City
+Chesterman Company
+4700 S. LEWIS BLVD
+Sioux City, IA 51106
+(800) 831-2653
+FAREWAY #0221 RS
+FAREWAY #0221 Phone 12522289
+4040 WAR EAGLE DR Account 140423
+SIOUX CITY, IA 51109 Store 0221
+Terms EDI
+Sold by PRESALE SC1066 Invoice 3424793
+Driver DEL 1052 PO
+Truck DEL 1052 License Not on file
+Delivered 10/13/2023 12:54 PM Expires 1/1/0001
+DELIVERED PRODUCTS [FREE]  _______________
+ITEM QTY DESCRIPTION RETAIL UPC PRICE DISC DPST AMOUNT
+138085 1 1.25LPLBT1X12 049000055375     0.00     0.00     0.00     0.00
+COKE
+411741 1 1.25LPLBT1X12 049000549614     0.00     0.00     0.00     0.00
+COKE CHERRY
+138087 1 1.25LPLBT1X12 DT 049000055399     0.00     0.00     0.00     0.00
+COKE
+137076 1 1.25LPLBT1X12 049000055436     0.00     0.00     0.00     0.00
+FANTA ORANGE
+138088 1 1.25LPLBT1X12 049000055450     0.00     0.00     0.00     0.00
+SPRITE
+------------------------------------------------------------
+5 1-LS 12 [1.25 LTR] 0.00
+411926 1 1.5LPLBT1X12 810113830346     0.00     0.00     0.00     0.00
+BDYARMR SPORT
+WATER
+------------------------------------------------------------
+1 1-LS 12 [1.5 LTR] 0.00
+155186 1 10.10ZPLBT1X12 883315090276     0.00     0.00     0.00     0.00
+TUM-E YUM BIG
+BERRY BLAST
+------------------------------------------------------------
+1 1-LS 12 [10.1 OZ] 0.00
+__________________________
+EXTENDED SUB-TOTALS | FREE     0.00     0.00     0.00     0.00DELIVERED PRICE DEPOSIT
+Cases 7 (0 pack)       0.00       0.00
+DO NOT PAY
+__________________________________________________________________
+THIS IS NOT A FINAL INVOICE Total sales       0.00
+Total credits       0.00
+Total deposit       0.00
+Total tax       0.00
+Invoice total       0.00
+EFT payment       0.00
+Due       0.00

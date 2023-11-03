@@ -1,4 +1,4 @@
-﻿namespace InvoiceApplication.Models
+﻿ namespace InvoiceApplication.Models
 {
     public class Invoice
     {
