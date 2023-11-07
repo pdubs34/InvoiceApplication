@@ -1,4 +1,4 @@
-﻿namespace InvoiceApplication.Models
+﻿namespace InvoiceApplication.Models.DataModels
 {
     public class DayData
     {
@@ -8,7 +8,8 @@
         public string Temp { get; set; }
         public double Retail { get; set; }
 
-        public DayData() {
+        public DayData()
+        {
             Date = DateTime.Now;
             Precipitation = string.Empty;
             Temp = string.Empty;

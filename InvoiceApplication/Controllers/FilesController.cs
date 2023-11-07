@@ -6,6 +6,7 @@ using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using System.Text;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using InvoiceApplication.Models;
 
 namespace InvoiceApplication.Controllers
 {
@@ -28,21 +29,25 @@ namespace InvoiceApplication.Controllers
             {
                 if (System.IO.Path.GetExtension(file.FileName).ToLower() == ".pdf" && file.ContentType == "application/pdf")
                 {
-                    // Process the uploaded PDF file here
-                    string fileName = System.IO.Path.GetFileName(file.FileName);
-                    string path = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
+                    using var stream = file.OpenReadStream();
 
-                    using (var stream = new FileStream(path, FileMode.Create))
+                    // Create a StringBuilder to store the extracted text
+                    var output = new StringBuilder();
+
+                    // Create a PdfReader
+                    using (var reader = new PdfReader(stream))
                     {
-                        file.CopyTo(stream);
+                        for (int page = 1; page <= reader.NumberOfPages; page++)
+                        {
+                            var strategy = new SimpleTextExtractionStrategy();
+                            var currentText = PdfTextExtractor.GetTextFromPage(reader, page, strategy);
+                            output.Append(currentText);
+                        }
                     }
 
-                    // Additional processing if needed
-
-                    // Parse the PDF file
-                    string text = ParsePdfFile(path);
-
-                    return RedirectToAction("ShowString", new { givenText = text });
+                    // Process the extracted text as needed
+                    string givenText = output.ToString();
+                    return RedirectToAction("ShowString", new { givenText = givenText });
                 }
                 else
                 {
@@ -53,36 +58,10 @@ namespace InvoiceApplication.Controllers
 
             return View();
         }
-
-        private string ParsePdfFile(string filePath)
-        {
-            using (var reader = new PdfReader(filePath))
-            {
-                var text = new StringBuilder();
-                for (int page = 1; page <= reader.NumberOfPages; page++)
-                {
-                    var strategy = new SimpleTextExtractionStrategy();
-                    var currentText = PdfTextExtractor.GetTextFromPage(reader, page, strategy);
-                    text.Append(currentText);
-                }
-
-                string[] lines = text.ToString().Split('\n');
-                string path = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", "example.txt");
-                using (StreamWriter sw = System.IO.File.CreateText(path))
-                {
-                    foreach (var line in lines) { 
-                        sw.WriteLine(line);
-                    }
-
-                }	
-                return text.ToString();
-            }
-            
-        }
         public IActionResult ShowString(string givenText)
         {
-            ViewBag.GivenText = givenText;
-            return View();
+            PDFViewModel model = new PDFViewModel(givenText);
+            return View(model);
         }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using InvoiceApplication.Data;
-using InvoiceApplication.Models;
+using InvoiceApplication.Models.DataModels;
 
 namespace InvoiceApplication.Controllers
 {
