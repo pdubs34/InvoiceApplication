@@ -1,4 +1,4 @@
-﻿namespace InvoiceApplication.Models.DataModels
+﻿namespace InvoiceApplication.Models
 {
     public class DayData
     {

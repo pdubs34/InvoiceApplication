@@ -1,10 +1,11 @@
-﻿namespace InvoiceApplication.Models
+﻿namespace InvoiceApplication.ViewModels
 {
     public class PDFViewModel
     {
         public string Data { get; set; }
 
-        public PDFViewModel() {
+        public PDFViewModel()
+        {
             Data = string.Empty;
         }
         public PDFViewModel(string data)

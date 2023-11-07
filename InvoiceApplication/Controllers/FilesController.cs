@@ -5,8 +5,7 @@ using System.IO;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using System.Text;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using InvoiceApplication.Models;
+using InvoiceApplication.ViewModels;
 
 namespace InvoiceApplication.Controllers
 {
