@@ -6,6 +6,9 @@ using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using System.Text;
 using InvoiceApplication.ViewModels;
+using InvoiceApplication.Models;
+using InvoiceApplication.Services;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 
 namespace InvoiceApplication.Controllers
 {
@@ -45,8 +48,12 @@ namespace InvoiceApplication.Controllers
                     }
 
                     // Process the extracted text as needed
+
                     string givenText = output.ToString();
-                    return RedirectToAction("ShowString", new { givenText = givenText });
+                    DataProcessor handleData = new DataProcessor(givenText);
+                    string tempText = handleData.ProcessData();
+
+                    return RedirectToAction("ShowString", new { givenText = tempText });
                 }
                 else
                 {
@@ -62,6 +69,7 @@ namespace InvoiceApplication.Controllers
             PDFViewModel model = new PDFViewModel(givenText);
             return View(model);
         }
+
     }
 }
 

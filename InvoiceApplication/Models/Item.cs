@@ -9,5 +9,10 @@
             Description = string.Empty;
             StoreCode = string.Empty;
         }
+        public Item(string givenDescription, string givenCode)
+        {
+            Description = givenDescription;
+            StoreCode = givenCode;
+        }
     }
 }
