@@ -9,11 +9,20 @@ using InvoiceApplication.ViewModels;
 using InvoiceApplication.Models;
 using InvoiceApplication.Services;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using InvoiceApplication.Data;
 
 namespace InvoiceApplication.Controllers
 {
     public class FilesController : Controller
+
     {
+        private readonly InvoiceApplicationContext _context;
+
+        public FilesController(InvoiceApplicationContext context)
+        {
+            _context = context;
+        }
         public IActionResult Index()
         {
             return View();
@@ -25,7 +34,7 @@ namespace InvoiceApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Upload(IFormFile file)
+        public async Task<IActionResult> Upload(IFormFile file)
         {
             if (file != null && file.Length > 0)
             {
@@ -50,10 +59,10 @@ namespace InvoiceApplication.Controllers
                     // Process the extracted text as needed
 
                     string givenText = output.ToString();
-                    DataProcessor handleData = new DataProcessor(givenText);
-                    string tempText = handleData.ProcessData();
+                    DataProcessor handleData = new DataProcessor(_context);
+                    await handleData.ProcessData(givenText);
 
-                    return RedirectToAction("ShowString", new { givenText = tempText });
+                    return RedirectToAction("ShowString", new { givenText = givenText });
                 }
                 else
                 {

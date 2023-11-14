@@ -3,9 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using InvoiceApplication.Data;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<InvoiceApplicationContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("InvoiceApplicationContext") ?? throw new InvalidOperationException("Connection string 'InvoiceApplicationContext' not found.")));
-
-// Add services to the container.
+    options.UseMySql(builder.Configuration.GetConnectionString("MySQLConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("MySQLConnection")))
+        .EnableDetailedErrors()
+        .EnableSensitiveDataLogging());
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -30,3 +30,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
